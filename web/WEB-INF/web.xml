@@ -3,12 +3,12 @@
     <context-param>
         <description>the relative path to product images</description>
         <param-name>productImagePath</param-name>
-        <param-value>/img/products/</param-value>
+        <param-value>img/products/</param-value>
     </context-param>
     <context-param>
         <description>the relative path to category images</description>
         <param-name>categoryImagePath</param-name>
-        <param-value>/img/categories/</param-value>
+        <param-value>img/categories/</param-value>
     </context-param>
     <session-config>
         <session-timeout>
