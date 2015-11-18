@@ -7,11 +7,13 @@ package controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import session.CategoryFacade;
 
 /**
  *
@@ -29,6 +31,15 @@ import javax.servlet.http.HttpServletResponse;
             "/chooseLanguage"})
 public class ControllerServlet extends HttpServlet {
 
+    @EJB
+    private CategoryFacade categoryFacade;
+    
+    @Override
+    public void init() throws ServletException {
+        // store a category list in servlet context
+        getServletContext().setAttribute("categories", categoryFacade.findAll());
+    }
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      * @param request servlet request
