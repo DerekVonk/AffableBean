@@ -6,7 +6,9 @@
     Author     : vonk
 --%>
 
-<sql:query var="categories" dataSource="jdbc/affablebean">
+<!-- lines below commented out because the ControllerServlet has an application
+ scoped attribute that contains the list of categories-->
+<%--<sql:query var="categories" dataSource="jdbc/affablebean">
     SELECT * FROM category
 </sql:query>
 
@@ -18,10 +20,10 @@
 <sql:query var="categoryProducts" dataSource="jdbc/affablebean">
     SELECT * FROM product WHERE category_id = ?
     <sql:param value="${pageContext.request.queryString}"/>
-</sql:query>
+</sql:query>--%>
 
 <div id="categoryLeftColumn">
-    <c:forEach var="category" items="${categories.rows}">
+    <c:forEach var="category" items="${categories}">
 
         <c:choose>
             <c:when test="${category.id == pageContext.request.queryString}">
@@ -44,10 +46,12 @@
 </div>
 
 <div id="categoryRightColumn">
-    <p id="categoryTitle">${selectedCategory.rows[0].name}</p>
+    <p id="categoryTitle">
+       <span style="background-color: #f5eabe; padding: 7px;">${selectedCategory.name}
+    </p>
 
     <table id="productTable">   
-        <c:forEach var="product" items="${categoryProducts.rows}" varStatus="iter">
+        <c:forEach var="product" items="${categoryProducts}" varStatus="iter">
 
             <tr class="${((iter.index % 2) == 0) ? 'lightBlue' : 'white'}">
                 <td>
