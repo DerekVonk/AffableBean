@@ -6,9 +6,11 @@
     Author     : vonk
 --%>
 
-<sql:query var="categories" dataSource="jdbc/affablebean">
+<!-- lines below commented out because the ControllerServlet has an application
+ scoped attribute that contains the list of categories-->
+<%--<sql:query var="categories" dataSource="jdbc/affablebean">
     SELECT * FROM category
-</sql:query>
+</sql:query>--%>
 
 <div id="indexLeftColumn">
     <div id="welcomeText">
@@ -20,7 +22,7 @@
 </div>
 
 <div id="indexRightColumn">
-    <c:forEach var="category" items="${categories.rows}">
+    <c:forEach var="category" items="${categories}">
         <div class="categoryBox">
                         <a href="category?${category.id}">
 

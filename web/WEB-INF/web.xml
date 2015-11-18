@@ -24,11 +24,17 @@
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>
     </jsp-config>
-    <resource-ref>
+    
+    <!--below commented out lines was required for the <sql> tags in order to
+    identify the data source registered on the server. we are now relying on 
+    the JPA to accass the database, and the jdbc/affablebean data source has
+    already been specified in the persistence unit.
+    -->
+<!--    <resource-ref>
         <description>Connects to database for AffableBean application</description>
         <res-ref-name>jdbc/affablebean</res-ref-name>
         <res-type>javax.sql.ConnectionPoolDataSource</res-type>
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
-    </resource-ref>
+    </resource-ref>-->
 </web-app>
