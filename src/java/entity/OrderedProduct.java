@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -15,16 +15,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author vonk
+ * @author tgiunipero
  */
 @Entity
 @Table(name = "ordered_product")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "OrderedProduct.findAll", query = "SELECT o FROM OrderedProduct o"),
     @NamedQuery(name = "OrderedProduct.findByCustomerOrderId", query = "SELECT o FROM OrderedProduct o WHERE o.orderedProductPK.customerOrderId = :customerOrderId"),
@@ -35,15 +32,14 @@ public class OrderedProduct implements Serializable {
     @EmbeddedId
     protected OrderedProductPK orderedProductPK;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "quantity")
     private short quantity;
-    @JoinColumn(name = "customer_order_id", referencedColumnName = "id", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private CustomerOrder customerOrder;
     @JoinColumn(name = "product_id", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Product product;
+    @JoinColumn(name = "customer_order_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(optional = false)
+    private CustomerOrder customerOrder;
 
     public OrderedProduct() {
     }
@@ -77,20 +73,20 @@ public class OrderedProduct implements Serializable {
         this.quantity = quantity;
     }
 
-    public CustomerOrder getCustomerOrder() {
-        return customerOrder;
-    }
-
-    public void setCustomerOrder(CustomerOrder customerOrder) {
-        this.customerOrder = customerOrder;
-    }
-
     public Product getProduct() {
         return product;
     }
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public CustomerOrder getCustomerOrder() {
+        return customerOrder;
+    }
+
+    public void setCustomerOrder(CustomerOrder customerOrder) {
+        this.customerOrder = customerOrder;
     }
 
     @Override
@@ -115,7 +111,7 @@ public class OrderedProduct implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.OrderedProduct[ orderedProductPK=" + orderedProductPK + " ]";
+        return "entity.OrderedProduct[orderedProductPK=" + orderedProductPK + "]";
     }
-    
+
 }

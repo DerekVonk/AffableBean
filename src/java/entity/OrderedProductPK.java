@@ -1,28 +1,25 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author vonk
+ * @author tgiunipero
  */
 @Embeddable
 public class OrderedProductPK implements Serializable {
     @Basic(optional = false)
-    @NotNull
     @Column(name = "customer_order_id")
     private int customerOrderId;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "product_id")
     private int productId;
 
@@ -76,7 +73,7 @@ public class OrderedProductPK implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.OrderedProductPK[ customerOrderId=" + customerOrderId + ", productId=" + productId + " ]";
+        return "entity.OrderedProductPK[customerOrderId=" + customerOrderId + ", productId=" + productId + "]";
     }
-    
+
 }

@@ -1,8 +1,9 @@
-<%-- 
+<%--
     Document   : confirmation
-    Created on : Oct 2, 2015, 6:05:20 PM
-    Author     : vonk
+    Created on : Sep 9, 2009, 12:20:30 AM
+    Author     : tgiunipero
 --%>
+
 
             <div id="singleColumn">
 
@@ -29,5 +30,6 @@
                             <th style="padding:10px">[ customer details ]</th>
                         </tr>
                     </table>
+
                 </div>
             </div>

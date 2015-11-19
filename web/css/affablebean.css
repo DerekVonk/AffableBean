@@ -19,8 +19,6 @@ hr {
     border: 0;
     background-color: #333;
     height: 1px;
-    margin: 0 25px;
-    width: 300px;
 }
 
 table {
@@ -41,6 +39,12 @@ a:visited { color: inherit }
 
 img { border: none }
 
+input, select { margin: 5px }
+
+li { margin: 10px 0 }
+
+label { line-height: 30px }
+
 
 /* general styles */
 #main { background: #f7f7e9 }
@@ -52,7 +56,7 @@ img { border: none }
 
 .lightBlue { background-color: #edf8f7 }
 
-.white { background-color: #f7f7e9}
+.white { background-color: #fff }
 
 .bubble {
     font-weight: bold;
@@ -102,9 +106,24 @@ img { border: none }
     float: right;
 }
 
+#cart {
+    position: absolute;
+    margin: 5px 0 0 2px;
+}
+
+.horizontalMargin {
+    margin-left: 28px;
+    margin-right: 5px
+}
+
+#viewCart {
+    text-align: left;
+    width: 210px;
+}
+
 .headerWidget {
     width: 194px;
-    margin: 20px 2px;
+    margin: 20px 0;
     font-size: small;
     float: right;
     line-height: 25px;
@@ -113,18 +132,15 @@ img { border: none }
 
 /* footer styles */
 #footer {
-    float: left;
     height: 60px;
     width: 350px;
+    clear: left;
 }
 
-#footerText { 
-    margin-top: 5px;
-    margin-left: 35px;
-}
-    
+#footerText { margin-top: 5px }
+
 #footerDivider {
-    margin: 0px;
+    margin: 0 25px;
     width: 300px;
 }
 
@@ -135,7 +151,6 @@ img { border: none }
     height: 400px;
     width: 350px;
     float: left;
-    background-color: #f7f7e9
 }
 
 #indexRightColumn {
@@ -143,7 +158,6 @@ img { border: none }
     height: 400px;
     width: 500px;
     float: left;
-    background-color: #f7f7e9
 }
 
 #welcomeText {
@@ -152,12 +166,10 @@ img { border: none }
 }
 
 .categoryBox {
-    border: 2px;
     height: 176px;
     width: 212px;
     margin: 21px 14px 6px;
     float: inherit;
-    
 }
 
 .categoryLabel {
@@ -173,15 +185,12 @@ img { border: none }
     position: absolute;
     line-height: 150%;
     font-size: x-large;
-    margin: 2px;
-    background-color: #fff;
-    opacity: 0.7;
+    margin: 3px 10px;
 }
 
 .categoryImage {
     padding: 1px;
     border:solid 1px #555;
-    
 }
 
 
@@ -191,7 +200,6 @@ img { border: none }
     float: left;
     margin-top: 25px;
     padding-left: 15px;
-    
 }
 
 #categoryRightColumn {
@@ -252,24 +260,39 @@ img { border: none }
 
 /* checkout page styles */
 #checkoutTable {
-    width: 360px;
+    width: 405px;
+    padding: 10px;
     background-color: #f5eabe;
     float: left;
-    height: 280px;
 }
 
-#infoBox {
-    width: 300px;
-    padding-left: 30px;
-    float: left;
+#checkoutTable td {
+    vertical-align: top;
+    text-align: right;
+    margin: 5px;
 }
+
+.inputField { width: 190px }
+
+#infoBox { padding: 10px 25px 0 460px }
 
 #priceBox {
     padding: 10px;
-    margin: 10px 0;
-    height: 128px;
+    border: 1px solid #c3e3e0;
     background-color: #c3e3e0;
 }
+
+#priceBox td {
+    text-align: right;
+    padding: 5px;
+}
+
+.checkoutPriceColumn {
+    width: 80px;
+    font-weight: bold;
+}
+
+.total { border-top: 1px solid #444 }
 
 
 /* confirmation page styles */
