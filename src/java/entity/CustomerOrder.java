@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package entity;
 
 import java.io.Serializable;
@@ -24,17 +24,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author vonk
+ * @author tgiunipero
  */
 @Entity
 @Table(name = "customer_order")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "CustomerOrder.findAll", query = "SELECT c FROM CustomerOrder c"),
     @NamedQuery(name = "CustomerOrder.findById", query = "SELECT c FROM CustomerOrder c WHERE c.id = :id"),
@@ -48,25 +44,21 @@ public class CustomerOrder implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
-    @NotNull
     @Column(name = "amount")
     private BigDecimal amount;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "date_created")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "confirmation_number")
     private int confirmationNumber;
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Customer customerId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerOrder")
     private Collection<OrderedProduct> orderedProductCollection;
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Customer customer;
 
     public CustomerOrder() {
     }
@@ -114,21 +106,20 @@ public class CustomerOrder implements Serializable {
         this.confirmationNumber = confirmationNumber;
     }
 
-    public Customer getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Customer customerId) {
-        this.customerId = customerId;
-    }
-
-    @XmlTransient
     public Collection<OrderedProduct> getOrderedProductCollection() {
         return orderedProductCollection;
     }
 
     public void setOrderedProductCollection(Collection<OrderedProduct> orderedProductCollection) {
         this.orderedProductCollection = orderedProductCollection;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     @Override
@@ -153,7 +144,7 @@ public class CustomerOrder implements Serializable {
 
     @Override
     public String toString() {
-        return "entity.CustomerOrder[ id=" + id + " ]";
+        return "entity.CustomerOrder[id=" + id + "]";
     }
-    
+
 }

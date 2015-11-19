@@ -1,16 +1,9 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 <%--
     Document   : index
-    Created on : Oct 2, 2015, 4:32:02 PM
-    Author     : vonk
+    Created on : Jun 9, 2010, 3:59:32 PM
+    Author     : tgiunipero
 --%>
 
-<!-- lines below commented out because the ControllerServlet has an application
- scoped attribute that contains the list of categories-->
-<%--<sql:query var="categories" dataSource="jdbc/affablebean">
-    SELECT * FROM category
-</sql:query>--%>
 
 <div id="indexLeftColumn">
     <div id="welcomeText">
@@ -26,12 +19,12 @@
     <c:forEach var="category" items="${categories}">
         <div class="categoryBox">
             <a href="category?${category.id}">
-
+                <span class="categoryLabel"></span>
                 <span class="categoryLabelText">${category.name}</span>
 
                 <img src="${initParam.categoryImagePath}${category.name}.jpg"
-                     alt="${category.name}">
+                     alt="${category.name}" class="categoryImage">
             </a>
         </div>
     </c:forEach>
-
+</div>

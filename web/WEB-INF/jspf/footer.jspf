@@ -1,4 +1,10 @@
-<%-- any content can be specified here e.g.: --%>
+<%--
+    Document   : footer
+    Created on : May 20, 2010, 12:20:12 AM
+    Author     : tgiunipero
+--%>
+
+
             <div id="footer">
                 <br>
                 <hr id="footerDivider">
