@@ -113,13 +113,20 @@ img { border: none }
 
 /* footer styles */
 #footer {
+    float: left;
     height: 60px;
     width: 350px;
-    
-    
 }
 
-#footerText { margin-top: 5px }
+#footerText { 
+    margin-top: 5px;
+    margin-left: 35px;
+}
+    
+#footerDivider {
+    margin: 0px;
+    width: 300px;
+}
 
 
 /* index page styles */
