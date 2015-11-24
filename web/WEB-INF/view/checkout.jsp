@@ -11,7 +11,7 @@
 
     <p>In order to purchase the items in your shopping cart, please provide us with the following information:</p>
 
-    <form action="purchase" method="post">
+    <form action="<c:url value='purchase'/>" method="post">
         <table id="checkoutTable">
             <tr>
                 <td><label for="name">name:</label></td>
