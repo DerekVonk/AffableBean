@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package controller;
 
 import cart.ShoppingCart;
@@ -19,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import session.CategoryFacade;
+import session.OrderManager;
 import session.ProductFacade;
 
 /**
@@ -26,14 +26,14 @@ import session.ProductFacade;
  * @author tgiunipero
  */
 @WebServlet(name = "Controller",
-            loadOnStartup = 1,
-            urlPatterns = {"/category",
-                           "/addToCart",
-                           "/viewCart",
-                           "/updateCart",
-                           "/checkout",
-                           "/purchase",
-                           "/chooseLanguage"})
+        loadOnStartup = 1,
+        urlPatterns = {"/category",
+            "/addToCart",
+            "/viewCart",
+            "/updateCart",
+            "/checkout",
+            "/purchase",
+            "/chooseLanguage"})
 public class ControllerServlet extends HttpServlet {
 
     private String surcharge;
@@ -42,6 +42,8 @@ public class ControllerServlet extends HttpServlet {
     private CategoryFacade categoryFacade;
     @EJB
     private ProductFacade productFacade;
+    @EJB
+    private OrderManager orderManager;
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
@@ -57,6 +59,7 @@ public class ControllerServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -92,8 +95,7 @@ public class ControllerServlet extends HttpServlet {
                 session.setAttribute("categoryProducts", categoryProducts);
             }
 
-
-        // if cart page is requested
+            // if cart page is requested
         } else if (userPath.equals("/viewCart")) {
 
             String clear = request.getParameter("clear");
@@ -106,8 +108,7 @@ public class ControllerServlet extends HttpServlet {
 
             userPath = "/cart";
 
-
-        // if checkout page is requested
+            // if checkout page is requested
         } else if (userPath.equals("/checkout")) {
 
             ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
@@ -116,9 +117,7 @@ public class ControllerServlet extends HttpServlet {
             cart.calculateTotal(surcharge);
 
             // forward to checkout page and switch to a secure channel
-
-
-        // if user switches language
+            // if user switches language
         } else if (userPath.equals("/chooseLanguage")) {
             // TODO: Implement language request
 
@@ -134,9 +133,9 @@ public class ControllerServlet extends HttpServlet {
         }
     }
 
-
     /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -172,8 +171,7 @@ public class ControllerServlet extends HttpServlet {
 
             userPath = "/category";
 
-
-        // if updateCart action is called
+            // if updateCart action is called
         } else if (userPath.equals("/updateCart")) {
 
             // get input from request
@@ -185,10 +183,20 @@ public class ControllerServlet extends HttpServlet {
 
             userPath = "/cart";
 
-
-        // if purchase action is called
+            // if purchase action is called
         } else if (userPath.equals("/purchase")) {
-            // TODO: Implement purchase action
+            
+            if (cart != null) {
+                // extract user data from request
+                String name = request.getParameter("name");
+                String email = request.getParameter("email");
+                String phone = request.getParameter("phone");
+                String address = request.getParameter("address");
+                String cityRegion = request.getParameter("cityRegion");
+                String ccNumber = request.getParameter("creditcard");
+                
+                int orderId = orderManager.placeOrder(name, email, phone, address, cityRegion, ccNumber, cart);
+            }
 
             userPath = "/confirmation";
         }
