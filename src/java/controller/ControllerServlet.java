@@ -10,6 +10,7 @@ import entity.Category;
 import entity.Product;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -19,7 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import session.CategoryFacade;
+import session.OrderManager;
 import session.ProductFacade;
+import validate.Validator;
 
 /**
  *
@@ -42,6 +45,8 @@ public class ControllerServlet extends HttpServlet {
     private CategoryFacade categoryFacade;
     @EJB
     private ProductFacade productFacade;
+    @EJB
+    private OrderManager orderManager;
 
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
@@ -146,9 +151,13 @@ public class ControllerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        request.setCharacterEncoding("UTF-8");  // ensures that user input is interpreted as
+                                                // 8-bit Unicode (e.g., for Czech characters)
+
         String userPath = request.getServletPath();
         HttpSession session = request.getSession();
         ShoppingCart cart = (ShoppingCart) session.getAttribute("cart");
+        Validator validator = new Validator();
 
         // if addToCart action is called
         if (userPath.equals("/addToCart")) {
@@ -180,17 +189,71 @@ public class ControllerServlet extends HttpServlet {
             String productId = request.getParameter("productId");
             String quantity = request.getParameter("quantity");
 
-            Product product = productFacade.find(Integer.parseInt(productId));
-            cart.update(product, quantity);
+            boolean invalidEntry = validator.validateQuantity(productId, quantity);
+
+                if (!invalidEntry) {
+
+                Product product = productFacade.find(Integer.parseInt(productId));
+                cart.update(product, quantity);
+            }
 
             userPath = "/cart";
 
 
         // if purchase action is called
         } else if (userPath.equals("/purchase")) {
-            // TODO: Implement purchase action
 
-            userPath = "/confirmation";
+            if (cart != null) {
+
+                // extract user data from request
+                String name = request.getParameter("name");
+                String email = request.getParameter("email");
+                String phone = request.getParameter("phone");
+                String address = request.getParameter("address");
+                String cityRegion = request.getParameter("cityRegion");
+                String ccNumber = request.getParameter("creditcard");
+
+                // validate user data
+                boolean validationErrorFlag = false;
+                validationErrorFlag = validator.validateForm(name, email, phone, address, cityRegion, ccNumber, request);
+
+                // if validation error found, return user to checkout
+                if (validationErrorFlag == true) {
+                    request.setAttribute("validationErrorFlag", validationErrorFlag);
+                    userPath = "/checkout";
+
+                    // otherwise, save order to database
+                } else {
+
+                    int orderId = orderManager.placeOrder(name, email, phone, address, cityRegion, ccNumber, cart);
+
+                    // if order processed successfully send user to confirmation page
+                    if (orderId != 0) {
+
+                        // dissociate shopping cart from session
+                        cart = null;
+
+                        // end session
+                        session.invalidate();
+
+                        // get order details
+                        Map orderMap = orderManager.getOrderDetails(orderId);
+
+                        // place order details in request scope
+                        request.setAttribute("customer", orderMap.get("customer"));
+                        request.setAttribute("products", orderMap.get("products"));
+                        request.setAttribute("orderRecord", orderMap.get("orderRecord"));
+                        request.setAttribute("orderedProducts", orderMap.get("orderedProducts"));
+
+                        userPath = "/confirmation";
+
+                    // otherwise, send back to checkout page and display error
+                    } else {
+                        userPath = "/checkout";
+                        request.setAttribute("orderFailureFlag", true);
+                    }
+                }
+            }
         }
 
         // use RequestDispatcher to forward request internally
